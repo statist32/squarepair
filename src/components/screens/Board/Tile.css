@@ -1,0 +1,6 @@
+.tile {
+  background: lightgray;
+  border-radius: 10%;
+  min-height: 10vh;
+  min-width: 10vh;
+}

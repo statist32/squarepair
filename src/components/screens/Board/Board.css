@@ -1,0 +1,19 @@
+.board-wrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: flex;
+}
+
+.board {
+  height: 40vw;
+  width: 40vw;
+  background: #eee;
+  border-radius: 2%;
+  display: flex;
+  justify-content: space-around;
+  align-content: space-around;
+  flex-direction: column;
+}
