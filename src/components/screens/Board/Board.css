@@ -20,8 +20,7 @@
 }
 
 .shuffle-btn {
-  height: 5%;
-  width: 5%;
+  padding: 2%;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -32,11 +31,16 @@
   margin: 1%;
 }
 
-@media ((screen) and min-width: 700px) {
+@media (max-width: 700px) {
   .shuffle-btn {
     margin: 5%;
+    padding: 5%;
   }
   .tile {
     margin: 4%;
+  }
+  .board {
+    height: 80vw;
+    width: 80vw;
   }
 }
