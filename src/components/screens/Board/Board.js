@@ -63,7 +63,7 @@ function _Board({ columns = 3, rows = 3 }) {
     let win = true
     const first = board[0][0]
     for (let i = 0; i < columns && win; i++) {
-      for (let j = 0; j < rows; j++) {
+      for (let j = 0; j < rows && win; j++) {
         win = first === board[i][j] ? true : false
       }
     }

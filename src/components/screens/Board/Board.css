@@ -31,3 +31,12 @@
   border-radius: 10%;
   margin: 1%;
 }
+
+@media ((screen) and min-width: 700px) {
+  .shuffle-btn {
+    margin: 5%;
+  }
+  .tile {
+    margin: 4%;
+  }
+}
