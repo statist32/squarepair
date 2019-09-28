@@ -2,12 +2,12 @@
   "name": "squarepair",
   "version": "0.1.0",
   "private": true,
-  "hhomepage": "https://statist32.github.io/squarepair/",
+  "homepage": "https://statist32.github.io/squarepair/",
   "dependencies": {
     "gh-pages": "^2.1.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "react-scripts": "3.1.2"
+    "react-scripts": "^3.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
