@@ -1,2 +1,0 @@
-.board-wrapper{height:100%;width:100%;display:flex;justify-content:center;align-items:center;align-content:flex}.board{height:40vw;width:40vw;background:#eee;border-radius:2%;flex-direction:column}.board,.tile-row-wrapper{display:flex;justify-content:space-around;align-content:space-around}.tile-row-wrapper{flex-direction:row}.tile{background:#d3d3d3;border-radius:10%;min-height:10vh;min-width:10vh}*{margin:0;padding:0}
-/*# sourceMappingURL=main.a4edfe54.chunk.css.map */
