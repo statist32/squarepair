@@ -49,7 +49,7 @@ function _Board({ columns = 3, rows = 3 }) {
     }
 
     setBoard(tempBoard)
-    scanBoard()
+    checkWin()
   }
 
   function shuffleBoard(shuffles) {
@@ -59,7 +59,7 @@ function _Board({ columns = 3, rows = 3 }) {
       changeTile(randomRow, randomColumn)
     }
   }
-  function scanBoard() {
+  function checkWin() {
     let win = true
     const first = board[0][0]
     for (let i = 0; i < columns && win; i++) {
