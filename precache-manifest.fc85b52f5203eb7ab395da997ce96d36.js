@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "22eb9d6c881cc49f4081ed3eca7e9cdb",
+    "revision": "fc22f0b40af3ef65225f83805b9c5a3a",
     "url": "/squarepair/index.html"
   },
   {
-    "revision": "8d453c1e4110c67a1780",
+    "revision": "df681858ab40d11bb384",
     "url": "/squarepair/static/css/main.4a87d322.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/squarepair/static/js/2.49a66714.chunk.js"
   },
   {
-    "revision": "8d453c1e4110c67a1780",
-    "url": "/squarepair/static/js/main.51a6f94f.chunk.js"
+    "revision": "df681858ab40d11bb384",
+    "url": "/squarepair/static/js/main.619ea8cd.chunk.js"
   },
   {
     "revision": "55b8ae8ce4244779d8ba",
