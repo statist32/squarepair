@@ -11,7 +11,7 @@ function _Board({ columns = 3, rows = 3 }) {
   function initBoard(rows, columns) {
     let row = []
     for (let i = 0; i < columns; i++) {
-      row.push('red')
+      row.push('#7800ff')
     }
     let board = []
     for (let i = 0; i < rows; i++) {
@@ -21,31 +21,37 @@ function _Board({ columns = 3, rows = 3 }) {
 
     setBoard(board)
   }
+  function manageColor(color) {
+    switch (color) {
+      case '#7800ff':
+        return '#FF7800'
+      case '#FF7800':
+        return '#00FF78'
+      case '#00FF78':
+        return '#7800ff'
 
-  function changeTile(row, column) {
-    //cheap enum maybe replace with switch case
-    const colors = {
-      red: 'blue',
-      blue: 'yellow',
-      yellow: 'red',
+      default:
+        return 'black'
     }
+  }
+  function changeTile(row, column) {
     //deep copy of board
     const tempBoard = [...board]
     const columns = tempBoard[0].length
     const rows = tempBoard.length
-    tempBoard[row][column] = colors[tempBoard[row][column]]
+    tempBoard[row][column] = manageColor(tempBoard[row][column])
 
     if (row - 1 >= 0) {
-      tempBoard[row - 1][column] = colors[tempBoard[row - 1][column]]
+      tempBoard[row - 1][column] = manageColor(tempBoard[row - 1][column])
     }
     if (row + 1 < columns) {
-      tempBoard[row + 1][column] = colors[tempBoard[row + 1][column]]
+      tempBoard[row + 1][column] = manageColor(tempBoard[row + 1][column])
     }
     if (column - 1 >= 0) {
-      tempBoard[row][column - 1] = colors[tempBoard[row][column - 1]]
+      tempBoard[row][column - 1] = manageColor(tempBoard[row][column - 1])
     }
     if (column + 1 < rows) {
-      tempBoard[row][column + 1] = colors[tempBoard[row][column + 1]]
+      tempBoard[row][column + 1] = manageColor(tempBoard[row][column + 1])
     }
 
     setBoard(tempBoard)
