@@ -1,3 +1,6 @@
+:root {
+  --green-won: #3be31c;
+}
 .board-wrapper {
   height: 100%;
   width: 100%;
@@ -17,8 +20,16 @@
   justify-content: space-around;
   align-content: space-around;
   flex-direction: column;
+  transition: background-color 2s;
+}
+.bg-green {
+  background: var(--green-won);
+  transition: background-color 200ms;
 }
 
+.has-won-message {
+  color: var(--green-won);
+}
 .shuffle-btn {
   padding: 1% 2%;
   text-align: center;

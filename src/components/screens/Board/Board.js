@@ -4,6 +4,7 @@ import { TileRow } from './TileRow'
 //TODO: win condition with reduce or filter
 function _Board({ columns = 3, rows = 3 }) {
   const [board, setBoard] = useState([[]])
+  const [hasWon, setHasWon] = useState(false)
   useEffect(() => {
     initBoard(rows, columns)
   }, [columns, rows])
@@ -74,15 +75,17 @@ function _Board({ columns = 3, rows = 3 }) {
       }
     }
     if (win) {
-      alert('You solved it!')
+      //flashes the background green and removes it afterwards
+      setHasWon(true)
+      setTimeout(() => setHasWon(false), 2000)
     }
   }
   return (
     <div className='board-wrapper'>
-      <div className='shuffle-btn' onClick={() => shuffleBoard(1)}>
-        Shuffle
+      <div className={`shuffle-btn`} onClick={() => shuffleBoard(1)}>
+        {hasWon ? 'You did it!' : 'Shuffle'}
       </div>
-      <div className='board'>
+      <div className={`board ${hasWon ? 'bg-green' : ''}`}>
         {board.map((row, index) => (
           <TileRow
             rowNumber={index}
