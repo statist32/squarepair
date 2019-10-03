@@ -56,7 +56,12 @@ function _Board({ columns = 3, rows = 3 }) {
     }
 
     setBoard(tempBoard)
-    checkWin()
+    const win = checkWin()
+    if (win) {
+      //flashes the background green and removes it afterwards
+      setHasWon(true)
+      setTimeout(() => setHasWon(false), 1000)
+    }
   }
 
   function shuffleBoard(shuffles) {
@@ -64,6 +69,11 @@ function _Board({ columns = 3, rows = 3 }) {
       let randomRow = Math.floor(Math.random() * rows)
       let randomColumn = Math.floor(Math.random() * columns)
       changeTile(randomRow, randomColumn)
+    }
+    //prevent case that it shuffles to the goal
+    //theoretically infinite recursion
+    if (checkWin()) {
+      shuffleBoard(shuffles)
     }
   }
   function checkWin() {
@@ -74,26 +84,24 @@ function _Board({ columns = 3, rows = 3 }) {
         win = first === board[i][j] ? true : false
       }
     }
-    if (win) {
-      //flashes the background green and removes it afterwards
-      setHasWon(true)
-      setTimeout(() => setHasWon(false), 2000)
-    }
+    return win
   }
   return (
     <div className='board-wrapper'>
-      <div className={`shuffle-btn`} onClick={() => shuffleBoard(1)}>
-        {hasWon ? 'You did it!' : 'Shuffle'}
-      </div>
-      <div className={`board ${hasWon ? 'bg-green' : ''}`}>
-        {board.map((row, index) => (
-          <TileRow
-            rowNumber={index}
-            row={row}
-            onClick={changeTile}
-            key={index}
-          />
-        ))}
+      <div className='interaction-wrapper'>
+        <div className={`shuffle-btn`} onClick={() => shuffleBoard(20)}>
+          {hasWon ? 'You did it!' : 'Shuffle'}
+        </div>
+        <div className={`board ${hasWon ? 'bg-green' : ''}`}>
+          {board.map((row, index) => (
+            <TileRow
+              rowNumber={index}
+              row={row}
+              onClick={changeTile}
+              key={index}
+            />
+          ))}
+        </div>
       </div>
     </div>
   )
