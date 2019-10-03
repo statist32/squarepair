@@ -8,17 +8,9 @@
   justify-content: center;
   align-items: center;
   align-content: flex;
-  flex-direction: row;
-}
-.interaction-wrapper {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  align-content: flex;
   flex-direction: column;
 }
+
 .board {
   height: 40vw;
   width: 40vw;

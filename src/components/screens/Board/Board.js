@@ -88,20 +88,18 @@ function _Board({ columns = 3, rows = 3 }) {
   }
   return (
     <div className='board-wrapper'>
-      <div className='interaction-wrapper'>
-        <div className={`shuffle-btn`} onClick={() => shuffleBoard(20)}>
-          {hasWon ? 'You did it!' : 'Shuffle'}
-        </div>
-        <div className={`board ${hasWon ? 'bg-green' : ''}`}>
-          {board.map((row, index) => (
-            <TileRow
-              rowNumber={index}
-              row={row}
-              onClick={changeTile}
-              key={index}
-            />
-          ))}
-        </div>
+      <div className={`shuffle-btn`} onClick={() => shuffleBoard(20)}>
+        {hasWon ? 'You did it!' : 'Shuffle'}
+      </div>
+      <div className={`board ${hasWon ? 'bg-green' : ''}`}>
+        {board.map((row, index) => (
+          <TileRow
+            rowNumber={index}
+            row={row}
+            onClick={changeTile}
+            key={index}
+          />
+        ))}
       </div>
     </div>
   )
