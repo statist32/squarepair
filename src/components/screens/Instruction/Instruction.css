@@ -1,0 +1,32 @@
+.instruction-wrapper {
+  height: 30%;
+  width: 15%;
+
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  border-radius: 20px;
+  padding: 1%;
+  text-align: center;
+}
+
+.instruction-header {
+  margin: 2% 0 8% 0;
+}
+.rules {
+  list-style: none;
+}
+
+.rules li {
+  margin-bottom: 10%;
+}
+
+@media (max-width: 700px) {
+  .instruction-wrapper {
+    width: 80%;
+    margin: 10% 0;
+  }
+}

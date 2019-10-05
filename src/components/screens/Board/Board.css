@@ -1,19 +1,21 @@
 :root {
   --green-won: #3be31c;
+  --board-size: 65vh;
 }
 .board-wrapper {
   height: 100%;
-  width: 100%;
+  width: var(--board-size);
   display: flex;
   justify-content: center;
   align-items: center;
   align-content: flex;
   flex-direction: column;
+  flex: 1;
 }
 
 .board {
-  height: 40vw;
-  width: 40vw;
+  height: var(--board-size);
+  width: var(--board-size);
   background: #f8f8f8;
   border-radius: 2%;
   display: flex;
@@ -44,7 +46,7 @@
 
 @media (max-width: 700px) {
   .shuffle-btn {
-    margin: 5%;
+    margin: 5% 0;
     padding: 5%;
   }
   .tile {
@@ -53,5 +55,8 @@
   .board {
     height: 80vw;
     width: 80vw;
+  }
+  .board-wrapper {
+    max-width: 100%;
   }
 }

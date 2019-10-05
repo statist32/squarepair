@@ -1,8 +1,16 @@
 .tile {
   background: lightgray;
   border-radius: 10%;
-  min-height: 10vh;
-  min-width: 10vh;
+  height: 10vh;
+  width: 10vh;
+
   transition: 100ms background-color;
   box-shadow: 1px 1px 2px 2px rgb(0, 0, 0, 0.4);
+}
+
+@media (max-width: 700px) {
+  .tile {
+    height: 9vh;
+    width: 9vh;
+  }
 }

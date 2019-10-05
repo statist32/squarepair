@@ -2,3 +2,16 @@
   margin: 0;
   padding: 0;
 }
+
+.app-wrapper {
+  display: flex;
+  justify-content: space-around;
+  align-content: space-around;
+  align-items: center;
+}
+
+@media (max-width: 700px) {
+  .app-wrapper {
+    flex-direction: column;
+  }
+}
