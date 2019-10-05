@@ -3,8 +3,16 @@ import './Board.css'
 import { TileRow } from './TileRow'
 //TODO: win condition with reduce or filter
 function _Board({ columns = 3, rows = 3 }) {
-  const [board, setBoard] = useState([[]])
+  const [history, setHistory] = useState([[]])
   const [hasWon, setHasWon] = useState(false)
+  //deep deep copy of current board
+  let board = history[history.length - 1].map(row => [...row])
+
+  function updateHistory(tempBoard) {
+    const localHistory = [...history, tempBoard]
+    setHistory(localHistory)
+  }
+
   useEffect(() => {
     initBoard(rows, columns)
   }, [columns, rows])
@@ -20,8 +28,9 @@ function _Board({ columns = 3, rows = 3 }) {
       board.push([...row])
     }
 
-    setBoard(board)
+    setHistory([board])
   }
+
   function manageColor(color) {
     switch (color) {
       case '#7800ff':
@@ -55,7 +64,7 @@ function _Board({ columns = 3, rows = 3 }) {
       tempBoard[row][column + 1] = manageColor(tempBoard[row][column + 1])
     }
 
-    setBoard(tempBoard)
+    updateHistory(tempBoard)
     const win = checkWin()
     if (win) {
       //flashes the background green and removes it afterwards
@@ -86,6 +95,7 @@ function _Board({ columns = 3, rows = 3 }) {
     }
     return win
   }
+  console.log(history)
   return (
     <div className='board-wrapper'>
       <div className={`shuffle-btn`} onClick={() => shuffleBoard(20)}>
