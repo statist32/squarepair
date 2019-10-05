@@ -6,10 +6,7 @@ function _Instruction() {
       <h2 className='instruction-header'>How to Play</h2>
       <ul className='rules'>
         <li>The goal of the game is to match the colors of all tiles</li>
-        <li>
-          On each click the tile itself and the adjacent ones (not diagonal)
-          change the color
-        </li>
+        <li>Click on each tile and the adjacent ones to change the color</li>
         <li>
           Each change in color is following a determined order based on the
           amount of chosen colors
