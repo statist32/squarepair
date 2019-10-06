@@ -52,6 +52,7 @@
   margin: 1% 0;
   border-radius: 5px;
   padding: 1%;
+  width: 60%;
 }
 .input-wrapper label input {
   border: none;
