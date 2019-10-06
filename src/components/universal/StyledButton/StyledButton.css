@@ -1,0 +1,14 @@
+.styled-button {
+  padding: 1.5% 2%;
+  text-align: center;
+  background: white;
+  border-radius: 10%;
+  margin: 2%;
+}
+
+@media (max-width: 700px) {
+  .styled-button {
+    margin: 5% 0;
+    padding: 5%;
+  }
+}

@@ -32,23 +32,17 @@
 .has-won-message {
   color: var(--green-won);
 }
-.shuffle-btn {
-  padding: 1% 2%;
-  text-align: center;
+
+.control-wrapper {
   display: flex;
   justify-content: center;
   align-content: center;
   align-items: center;
-  background: white;
-  border-radius: 10%;
-  margin: 1%;
+  height: 100%;
+  width: 100%;
 }
 
 @media (max-width: 700px) {
-  .shuffle-btn {
-    margin: 5% 0;
-    padding: 5%;
-  }
   .tile {
     margin: 4%;
   }

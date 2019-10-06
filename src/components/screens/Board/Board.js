@@ -1,6 +1,7 @@
 import React, { memo, useState, useEffect } from 'react'
 import './Board.css'
 import { TileRow } from './TileRow'
+import { StyledButton } from '../../universal/StyledButton/StyledButton'
 //TODO: win condition with reduce or filter
 function _Board({ columns = 3, rows = 3 }) {
   const [history, setHistory] = useState([[]])
@@ -95,11 +96,13 @@ function _Board({ columns = 3, rows = 3 }) {
     }
     return win
   }
-  console.log(history)
   return (
     <div className='board-wrapper'>
-      <div className={`shuffle-btn`} onClick={() => shuffleBoard(20)}>
-        {hasWon ? 'You did it!' : 'Shuffle'}
+      <div className='control-wrapper'>
+        <StyledButton
+          text={hasWon ? 'You did it!' : 'Shuffle'}
+          onClick={() => shuffleBoard(20)}
+        />
       </div>
       <div className={`board ${hasWon ? 'bg-green' : ''}`}>
         {board.map((row, index) => (
