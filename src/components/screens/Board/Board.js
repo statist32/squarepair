@@ -71,11 +71,13 @@ function _Board({ columns = 3, rows = 3 }) {
       //flashes the background green and removes it afterwards
       setHasWon(true)
       setTimeout(() => setHasWon(false), 1000)
+      //delete history of last game to save memory and prevent undo
       initBoard(rows, columns)
     }
   }
 
   function shuffleBoard(shuffles) {
+    //click randomly  tiles
     for (let i = 0; i < shuffles; i++) {
       let randomRow = Math.floor(Math.random() * rows)
       let randomColumn = Math.floor(Math.random() * columns)
@@ -89,6 +91,7 @@ function _Board({ columns = 3, rows = 3 }) {
   }
 
   function undoMove() {
+    //removes current board from history
     if (history.length - 1 > 0) {
       let tempHistory = history
       tempHistory.pop()
@@ -97,6 +100,7 @@ function _Board({ columns = 3, rows = 3 }) {
   }
 
   function checkWin() {
+    //simple win check
     let win = true
     const first = board[0][0]
     for (let i = 0; i < columns && win; i++) {
