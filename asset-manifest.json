@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/squarepair/static/css/main.c80deb25.chunk.css",
-    "main.js": "/squarepair/static/js/main.3f0fd78b.chunk.js",
-    "main.js.map": "/squarepair/static/js/main.3f0fd78b.chunk.js.map",
+    "main.js": "/squarepair/static/js/main.3dc797d9.chunk.js",
+    "main.js.map": "/squarepair/static/js/main.3dc797d9.chunk.js.map",
     "runtime-main.js": "/squarepair/static/js/runtime-main.644ff753.js",
     "runtime-main.js.map": "/squarepair/static/js/runtime-main.644ff753.js.map",
     "static/js/2.55f4a44f.chunk.js": "/squarepair/static/js/2.55f4a44f.chunk.js",
     "static/js/2.55f4a44f.chunk.js.map": "/squarepair/static/js/2.55f4a44f.chunk.js.map",
     "index.html": "/squarepair/index.html",
-    "precache-manifest.e0bdcdc004484cfe38a28fc0f436f9da.js": "/squarepair/precache-manifest.e0bdcdc004484cfe38a28fc0f436f9da.js",
+    "precache-manifest.17458e876220763afad6caef389b5bb3.js": "/squarepair/precache-manifest.17458e876220763afad6caef389b5bb3.js",
     "service-worker.js": "/squarepair/service-worker.js",
     "static/css/main.c80deb25.chunk.css.map": "/squarepair/static/css/main.c80deb25.chunk.css.map"
   }
