@@ -3,7 +3,7 @@ import './Board.css'
 import { TileRow } from './TileRow'
 import { StyledButton } from '../../universal/StyledButton/StyledButton'
 //TODO: win condition with reduce or filter
-function _Board({ rows = 3, columns = 3 }) {
+function _Board({ rows = 4, columns = 4 }) {
   const [history, setHistory] = useState([[]])
   const [hasWon, setHasWon] = useState(false)
   //deep deep copy of current board
@@ -61,7 +61,7 @@ function _Board({ rows = 3, columns = 3 }) {
     if (column - 1 >= 0) {
       tempBoard[row][column - 1] = manageColor(tempBoard[row][column - 1])
     }
-    if (column + 1 < column) {
+    if (column + 1 < columns) {
       tempBoard[row][column + 1] = manageColor(tempBoard[row][column + 1])
     }
 

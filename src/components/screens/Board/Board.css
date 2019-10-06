@@ -4,7 +4,7 @@
 }
 .board-wrapper {
   height: 100%;
-  width: var(--board-size);
+  min-width: var(--board-size);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,8 +14,8 @@
 }
 
 .board {
-  height: var(--board-size);
-  width: var(--board-size);
+  min-height: var(--board-size);
+  min-width: var(--board-size);
   background: #f8f8f8;
   border-radius: 2%;
   display: flex;
