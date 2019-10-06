@@ -69,14 +69,6 @@ function _Board() {
     }
 
     updateHistory(tempBoard)
-    const win = checkWin()
-    if (win) {
-      //flashes the background green and removes it afterwards
-      setHasWon(true)
-      setTimeout(() => setHasWon(false), 1000)
-      //delete history of last game to save memory and prevent undo
-      initBoard(rows, columns)
-    }
   }
 
   function shuffleBoard(shuffles) {
@@ -113,6 +105,18 @@ function _Board() {
     }
     return win
   }
+  function handelChange(row, column) {
+    changeTile(row, column)
+    const win = checkWin()
+    if (win) {
+      //flashes the background green and removes it afterwards
+      setHasWon(true)
+      setTimeout(() => setHasWon(false), 1000)
+      //delete history of last game to save memory and prevent undo
+      initBoard(rows, columns)
+    }
+  }
+
   return (
     <div className='board-wrapper'>
       <div className='control-wrapper'>
@@ -129,6 +133,9 @@ function _Board() {
               placeholder='Rows'
               value={rows}
               onChange={e => setRows(e.target.value)}
+              type='number'
+              min='2'
+              max='10'
             />
           </label>
           <label>
@@ -137,6 +144,9 @@ function _Board() {
               placeholder='Columns'
               value={columns}
               onChange={e => setColumns(e.target.value)}
+              type='number'
+              min='2'
+              max='10'
             />
           </label>
           <label>
@@ -145,6 +155,9 @@ function _Board() {
               placeholder='Colors'
               value={colors}
               onChange={e => setColors(e.target.value)}
+              type='number'
+              min='2'
+              max='10'
             />
           </label>
         </div>
@@ -154,7 +167,7 @@ function _Board() {
           <TileRow
             rowNumber={index}
             row={row}
-            onClick={changeTile}
+            onClick={handelChange}
             key={index}
           />
         ))}

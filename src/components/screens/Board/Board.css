@@ -5,7 +5,7 @@
 }
 .board-wrapper {
   height: 100%;
-  min-width: var(--board-size);
+  min-width: var(--board-size-full);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -44,6 +44,10 @@
 .input-wrapper {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  margin: 2% 0;
 }
 .input-wrapper label {
   background: white;
