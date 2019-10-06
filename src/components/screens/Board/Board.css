@@ -49,6 +49,15 @@
   background: white;
   display: flex;
   justify-content: space-between;
+  margin: 1% 0;
+  border-radius: 5px;
+  padding: 1%;
 }
+.input-wrapper label input {
+  border: none;
+  background: transparent;
+  width: 40%;
+}
+
 @media (max-width: 700px) {
 }

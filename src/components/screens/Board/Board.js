@@ -122,6 +122,32 @@ function _Board() {
         />
         <StyledButton text={'Undo'} onClick={() => undoMove()} />
         <StyledButton text={'Reset'} onClick={() => initBoard(rows, columns)} />
+        <div className='input-wrapper'>
+          <label>
+            Rows:
+            <input
+              placeholder='Rows'
+              value={rows}
+              onChange={e => setRows(e.target.value)}
+            />
+          </label>
+          <label>
+            Columns:{' '}
+            <input
+              placeholder='Columns'
+              value={columns}
+              onChange={e => setColumns(e.target.value)}
+            />
+          </label>
+          <label>
+            Colors:
+            <input
+              placeholder='Colors'
+              value={colors}
+              onChange={e => setColors(e.target.value)}
+            />
+          </label>
+        </div>
       </div>
       <div className={`board ${hasWon ? 'bg-green' : ''}`}>
         {board.map((row, index) => (
