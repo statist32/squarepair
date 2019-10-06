@@ -55,13 +55,13 @@ function _Board({ rows = 3, columns = 3 }) {
     if (row - 1 >= 0) {
       tempBoard[row - 1][column] = manageColor(tempBoard[row - 1][column])
     }
-    if (row + 1 < columns) {
+    if (row + 1 < rows) {
       tempBoard[row + 1][column] = manageColor(tempBoard[row + 1][column])
     }
     if (column - 1 >= 0) {
       tempBoard[row][column - 1] = manageColor(tempBoard[row][column - 1])
     }
-    if (column + 1 < rows) {
+    if (column + 1 < column) {
       tempBoard[row][column + 1] = manageColor(tempBoard[row][column + 1])
     }
 
@@ -103,8 +103,8 @@ function _Board({ rows = 3, columns = 3 }) {
     //simple win check
     let win = true
     const first = board[0][0]
-    for (let i = 0; i < columns && win; i++) {
-      for (let j = 0; j < rows && win; j++) {
+    for (let i = 0; i < rows && win; i++) {
+      for (let j = 0; j < columns && win; j++) {
         win = first === board[i][j] ? true : false
       }
     }
