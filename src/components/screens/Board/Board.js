@@ -20,8 +20,6 @@ function _Board() {
     ['#66D926', '#26BFD9', '#9926D9', '#D94026'],
   ]
   let colors = palettes[colorAmount - 2]
-  console.log('colors', colors)
-  console.log('pal', palettes)
 
   function updateHistory(tempBoard) {
     const localHistory = [...history, tempBoard]
@@ -120,6 +118,19 @@ function _Board() {
       initBoard(rows, columns)
     }
   }
+  function handleRows(rows) {
+    setRows(rows)
+    initBoard(rows, columns)
+  }
+  function handleColumns(columns) {
+    setColumns(columns)
+    initBoard(rows, columns)
+  }
+  function handleColors(colorAmount) {
+    setColorAmount(colorAmount)
+    colors = palettes[colorAmount - 2]
+    initBoard(rows, columns)
+  }
 
   return (
     <div className='board-wrapper'>
@@ -136,7 +147,7 @@ function _Board() {
             <input
               placeholder='Rows'
               value={rows}
-              onChange={e => setRows(e.target.value)}
+              onChange={e => handleRows(e.target.value)}
               type='number'
               min='2'
               max='10'
@@ -147,7 +158,7 @@ function _Board() {
             <input
               placeholder='Columns'
               value={columns}
-              onChange={e => setColumns(e.target.value)}
+              onChange={e => handleColumns(e.target.value)}
               type='number'
               min='2'
               max='10'
@@ -158,7 +169,7 @@ function _Board() {
             <input
               placeholder='Colors'
               value={colorAmount}
-              onChange={e => setColorAmount(e.target.value)}
+              onChange={e => handleColors(e.target.value)}
               type='number'
               min='2'
               max='4'
