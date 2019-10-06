@@ -3,7 +3,7 @@ import './Board.css'
 import { TileRow } from './TileRow'
 import { StyledButton } from '../../universal/StyledButton/StyledButton'
 //TODO: win condition with reduce or filter
-function _Board({ columns = 3, rows = 3 }) {
+function _Board({ rows = 3, columns = 3 }) {
   const [history, setHistory] = useState([[]])
   const [hasWon, setHasWon] = useState(false)
   //deep deep copy of current board
@@ -25,7 +25,7 @@ function _Board({ columns = 3, rows = 3 }) {
     }
     let board = []
     for (let i = 0; i < rows; i++) {
-      //...row copys row otherwise shallow copy
+      //...row copies row otherwise shallow copy
       board.push([...row])
     }
 
@@ -118,6 +118,7 @@ function _Board({ columns = 3, rows = 3 }) {
           onClick={() => shuffleBoard(20)}
         />
         <StyledButton text={'Undo'} onClick={() => undoMove()} />
+        <StyledButton text={'Reset'} onClick={() => initBoard(rows, columns)} />
       </div>
       <div className={`board ${hasWon ? 'bg-green' : ''}`}>
         {board.map((row, index) => (
