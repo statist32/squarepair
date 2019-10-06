@@ -1,6 +1,7 @@
 :root {
   --green-won: #3be31c;
-  --board-size: 65vh;
+  --board-size-full: 65vh;
+  --board-size-mobile: 90vw;
 }
 .board-wrapper {
   height: 100%;
@@ -14,8 +15,6 @@
 }
 
 .board {
-  min-height: var(--board-size);
-  min-width: var(--board-size);
   background: #f8f8f8;
   border-radius: 2%;
   display: flex;
@@ -35,22 +34,21 @@
 
 .control-wrapper {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-content: center;
   align-items: center;
   height: 100%;
   width: 100%;
 }
-
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.input-wrapper label {
+  background: white;
+  display: flex;
+  justify-content: space-between;
+}
 @media (max-width: 700px) {
-  .tile {
-    margin: 4%;
-  }
-  .board {
-    height: 80vw;
-    width: 80vw;
-  }
-  .board-wrapper {
-    max-width: 100%;
-  }
 }

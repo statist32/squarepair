@@ -3,9 +3,12 @@ import './Board.css'
 import { TileRow } from './TileRow'
 import { StyledButton } from '../../universal/StyledButton/StyledButton'
 //TODO: win condition with reduce or filter
-function _Board({ rows = 4, columns = 4 }) {
+function _Board() {
   const [history, setHistory] = useState([[]])
   const [hasWon, setHasWon] = useState(false)
+  const [rows, setRows] = useState(3)
+  const [columns, setColumns] = useState(3)
+  const [colors, setColors] = useState(3)
   //deep deep copy of current board
   let board = history[history.length - 1].map(row => [...row])
 
@@ -135,3 +138,32 @@ function _Board({ rows = 4, columns = 4 }) {
 }
 
 export const Board = memo(_Board)
+
+{
+  /* <div className='input-wrapper'>
+<label>
+  Rows:
+  <input
+    placeholder='Rows'
+    value={rows}
+    onChange={e => setRows(e.target.value)}
+  />
+</label>
+<label>
+  Columns:{' '}
+  <input
+    placeholder='Columns'
+    value={columns}
+    onChange={e => setColumns(e.target.value)}
+  />
+</label>
+<label>
+  Colors:
+  <input
+    placeholder='Colors'
+    value={colors}
+    onChange={e => setColors(e.target.value)}
+  />
+</label>
+</div> */
+}

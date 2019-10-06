@@ -1,5 +1,5 @@
 .styled-button {
-  padding: 1.5% 2%;
+  padding: 1rem 2rem;
   text-align: center;
   background: white;
   border-radius: 10%;
@@ -8,7 +8,7 @@
 
 @media (max-width: 700px) {
   .styled-button {
-    margin: 5% 0;
-    padding: 5%;
+    margin: 3% 0.5%;
+    padding: 1rem 2rem;
   }
 }

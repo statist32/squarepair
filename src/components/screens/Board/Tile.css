@@ -1,6 +1,6 @@
 :root {
   --tile-size-full: 13vh;
-  --tile-size-mobile: 8.5vh;
+  --tile-size-mobile: 8.5vw;
 }
 .tile {
   background: lightgray;
@@ -10,12 +10,13 @@
 
   transition: 300ms background-color;
   box-shadow: 1px 1px 2px 2px rgb(0, 0, 0, 0.4);
-  transform: rotate(180deg);
+  margin: 3vh;
 }
 
 @media (max-width: 700px) {
   .tile {
-    height: var(--tile-size-mobile);
-    width: var(--tile-size-mobile);
+    min-height: var(--tile-size-mobile);
+    min-width: var(--tile-size-mobile);
+    margin: 1vw;
   }
 }
