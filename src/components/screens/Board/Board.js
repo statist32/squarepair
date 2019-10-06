@@ -3,14 +3,25 @@ import './Board.css'
 import { TileRow } from './TileRow'
 import { StyledButton } from '../../universal/StyledButton/StyledButton'
 //TODO: win condition with reduce or filter
+//TODO: maybe switch to redux
 function _Board() {
   const [history, setHistory] = useState([[]])
   const [hasWon, setHasWon] = useState(false)
   const [rows, setRows] = useState(3)
   const [columns, setColumns] = useState(3)
-  const [colors, setColors] = useState(3)
+  const [colorAmount, setColorAmount] = useState(3)
   //deep deep copy of current board
   let board = history[history.length - 1].map(row => [...row])
+
+  // const colors = ['#7800ff', '#FF7800', '#00FF78'].slice(0, colorAmount)
+  const palettes = [
+    ['#CE3141', '#31CEBE'],
+    ['#7800ff', '#FF7800', '#00FF78'],
+    ['#66D926', '#26BFD9', '#9926D9', '#D94026'],
+  ]
+  let colors = palettes[colorAmount - 2]
+  console.log('colors', colors)
+  console.log('pal', palettes)
 
   function updateHistory(tempBoard) {
     const localHistory = [...history, tempBoard]
@@ -19,12 +30,13 @@ function _Board() {
 
   useEffect(() => {
     initBoard(rows, columns)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [columns, rows])
 
   function initBoard(rows, columns) {
     let row = []
     for (let i = 0; i < columns; i++) {
-      row.push('#7800ff')
+      row.push(colors[0])
     }
     let board = []
     for (let i = 0; i < rows; i++) {
@@ -36,17 +48,9 @@ function _Board() {
   }
 
   function manageColor(color) {
-    switch (color) {
-      case '#7800ff':
-        return '#FF7800'
-      case '#FF7800':
-        return '#00FF78'
-      case '#00FF78':
-        return '#7800ff'
-
-      default:
-        return 'transparent'
-    }
+    console.log(colors)
+    const index = colors.indexOf(color)
+    return colors[(index + 1) % colorAmount]
   }
   function changeTile(row, column) {
     //deep copy of board
@@ -153,11 +157,11 @@ function _Board() {
             Colors:
             <input
               placeholder='Colors'
-              value={colors}
-              onChange={e => setColors(e.target.value)}
+              value={colorAmount}
+              onChange={e => setColorAmount(e.target.value)}
               type='number'
               min='2'
-              max='10'
+              max='4'
             />
           </label>
         </div>
