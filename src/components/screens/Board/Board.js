@@ -177,32 +177,3 @@ function _Board() {
 }
 
 export const Board = memo(_Board)
-
-{
-  /* <div className='input-wrapper'>
-<label>
-  Rows:
-  <input
-    placeholder='Rows'
-    value={rows}
-    onChange={e => setRows(e.target.value)}
-  />
-</label>
-<label>
-  Columns:{' '}
-  <input
-    placeholder='Columns'
-    value={columns}
-    onChange={e => setColumns(e.target.value)}
-  />
-</label>
-<label>
-  Colors:
-  <input
-    placeholder='Colors'
-    value={colors}
-    onChange={e => setColors(e.target.value)}
-  />
-</label>
-</div> */
-}
