@@ -42,7 +42,7 @@ function _Board({ columns = 3, rows = 3 }) {
         return '#7800ff'
 
       default:
-        return 'black'
+        return 'transparent'
     }
   }
   function changeTile(row, column) {
@@ -71,6 +71,7 @@ function _Board({ columns = 3, rows = 3 }) {
       //flashes the background green and removes it afterwards
       setHasWon(true)
       setTimeout(() => setHasWon(false), 1000)
+      initBoard(rows, columns)
     }
   }
 
@@ -86,6 +87,15 @@ function _Board({ columns = 3, rows = 3 }) {
       shuffleBoard(shuffles)
     }
   }
+
+  function undoMove() {
+    if (history.length - 1 > 0) {
+      let tempHistory = history
+      tempHistory.pop()
+      setHistory([...tempHistory])
+    }
+  }
+
   function checkWin() {
     let win = true
     const first = board[0][0]
@@ -103,6 +113,7 @@ function _Board({ columns = 3, rows = 3 }) {
           text={hasWon ? 'You did it!' : 'Shuffle'}
           onClick={() => shuffleBoard(20)}
         />
+        <StyledButton text={'Undo'} onClick={() => undoMove()} />
       </div>
       <div className={`board ${hasWon ? 'bg-green' : ''}`}>
         {board.map((row, index) => (
