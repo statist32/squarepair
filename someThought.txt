@@ -1,0 +1,16 @@
+**3x3**
+
+1. Change color of the entire board
+-> click every side once and the mid
+
+2. if a corner and adjacent are the same color and the rest is uniform
+-> click on the side and corner which is not the second color
+
+3. if just one side differs
+-> click on a adjacent corner and do 2
+
+4. if just a corner differs
+-> click a "adjacent" corner and the missing side  and do 2
+
+5. if only the mid differs
+-> click on each corner and the mid once maybe repeat this step
