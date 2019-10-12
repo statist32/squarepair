@@ -34,34 +34,23 @@ export function changeTile(
     colors,
   )
 
-  if (row - 1 >= 0) {
-    tempBoard[row - 1][column] = manageColor(
-      tempBoard[row - 1][column],
-      colorAmount,
-      colors,
-    )
+  for (let offset = -1; offset < 3; offset += 2) {
+    if (row + offset >= 0 && row + offset < rows) {
+      tempBoard[row + offset][column] = manageColor(
+        tempBoard[row + offset][column],
+        colorAmount,
+        colors,
+      )
+    }
+    if (column + offset >= 0 && column + offset < columns) {
+      tempBoard[row][column + offset] = manageColor(
+        tempBoard[row][column + offset],
+        colorAmount,
+        colors,
+      )
+    }
   }
-  if (row + 1 < rows) {
-    tempBoard[row + 1][column] = manageColor(
-      tempBoard[row + 1][column],
-      colorAmount,
-      colors,
-    )
-  }
-  if (column - 1 >= 0) {
-    tempBoard[row][column - 1] = manageColor(
-      tempBoard[row][column - 1],
-      colorAmount,
-      colors,
-    )
-  }
-  if (column + 1 < columns) {
-    tempBoard[row][column + 1] = manageColor(
-      tempBoard[row][column + 1],
-      colorAmount,
-      colors,
-    )
-  }
+
   updateHistory(tempBoard)
 }
 
