@@ -25,7 +25,7 @@ export function changeTile(
   updateHistory,
 ) {
   //deep copy of board
-  const tempBoard = [...board]
+  const tempBoard = board.map(row => [...row])
   const columns = tempBoard[0].length
   const rows = tempBoard.length
   tempBoard[row][column] = manageColor(
