@@ -1,6 +1,5 @@
-import random
+import sys
 from copy import deepcopy
-import pprint
 rows = 3
 columns = 3
 colorAmount = 3
@@ -34,6 +33,7 @@ def checkWin(board):
 
 def findSolution(history, clickAmount):
     # recursion which tests all possible clicks and checks the result of a given board/latest in History
+    # checks only for the exact given clickAmount
     board = deepcopy(history[-1])
     # base case
 
@@ -54,10 +54,19 @@ def findSolution(history, clickAmount):
             findSolution(tempHistory, clickAmount-1)
 
 
-a = 2
+a = 1
 testBoard = [[1, 1, 1],
              [1, 1, a],
              [1, a, a]]
 
 
-findSolution([deepcopy(testBoard)], 2)
+if __name__ == "__main__":
+
+    if(len(sys.argv) not in [2, 4]):
+        print(
+            f"Usage: python {__file__} [number of clicks aka depth] ")
+        print(f"You used {len(sys.argv)} arguments")
+
+    else:
+        clickAmount = int(sys.argv[1])
+        findSolution([deepcopy(testBoard)], clickAmount)
