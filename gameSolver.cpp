@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <chrono>
 using namespace std;
 
 /* helper function to display solutions */
@@ -62,9 +63,8 @@ bool checkWin(vector<vector<int>> board)
     return true;
 }
 
-void findSolution(int rows, int columns, vector<vector<vector<int>>> history, int clickAmount, int colorAmount)
+void findSolutionRecursive(int rows, int columns, vector<vector<vector<int>>> history, int clickAmount, int colorAmount)
 {
-
     vector<vector<int>> board(history.back());
     if (clickAmount <= 0)
     {
@@ -84,10 +84,81 @@ void findSolution(int rows, int columns, vector<vector<vector<int>>> history, in
                 vector<vector<vector<int>>> tempHistory(history);
 
                 tempHistory.push_back(tempBoard);
-                findSolution(rows, columns, tempHistory, clickAmount - 1, colorAmount);
+                findSolutionRecursive(rows, columns, tempHistory, clickAmount - 1, colorAmount);
             }
         }
     }
+}
+void testEachTile(int rows, int columns, vector<vector<vector<int>>> history, int clickAmount, int colorAmount)
+{
+    vector<vector<int>> board(history.back());
+    for (int row = 0; row < rows; row++)
+    {
+        for (int column = 0; column < columns; column++)
+        {
+            vector<vector<int>> tempBoard = clickBoard(row, column, board, colorAmount);
+            vector<vector<vector<int>>> tempHistory(history);
+            tempHistory.push_back(tempBoard);
+            if (checkWin(tempBoard))
+            {
+                printHistory(tempHistory);
+            }
+        }
+    }
+}
+
+vector<vector<int>> manageCounter(vector<vector<int>> tempCounter, int colorAmount)
+{
+    vector<vector<int>> counter(tempCounter);
+    for (int row = 0; row < counter.size(); row++)
+    {
+        for (int column = 0; column < counter[0].size(); column++)
+        {
+            while (counter[row][column] >= colorAmount)
+            {
+                counter[row][column] -= colorAmount;
+                if (column + 1 < counter[0].size())
+                {
+                    counter[row][column + 1]++;
+                }
+                else if (row + 1 < counter.size())
+                {
+                    counter[row + 1][0]++;
+                }
+            }
+        }
+    }
+    return counter;
+}
+
+vector<vector<int>> increaseCounter(vector<vector<int>> tempCounter, int colorAmount)
+{
+    vector<vector<int>> counter(tempCounter);
+    counter[0][0]++;
+    counter = manageCounter(counter, colorAmount);
+    return counter;
+}
+
+vector<vector<int>> addBoards(vector<vector<int>> board1, vector<vector<int>> board2, int colorAmount)
+{
+    vector<vector<int>> tempBoard(board1);
+    for (int row = 0; row < tempBoard.size(); row++)
+    {
+        for (int column = 0; column < tempBoard[0].size(); column++)
+        {
+            tempBoard[row][column] += board2[row][column];
+        }
+    }
+    tempBoard = manageCounter(tempBoard, colorAmount);
+    return tempBoard;
+}
+
+void findSolution(int rows, int columns, vector<vector<vector<int>>> history, int clickAmount, int colorAmount)
+{
+    vector<vector<int>> board(history.back());
+    vector<vector<int>> counter(rows, {0, 1, 2});
+    counter = addBoards(board, counter, colorAmount);
+    printBoard(counter);
 }
 
 int main(int argc, char *argv[])
@@ -95,10 +166,19 @@ int main(int argc, char *argv[])
     int rows = 3;
     int columns = 3;
     int colorAmount = 3;
-    int clickAmount = 2;
-    vector<vector<int>> board = {{2, 2, 2}, {2, 2, 1}, {2, 1, 1}};
+    int clickAmount = 1;
+    vector<vector<int>> board = {{1, 1, 1}, {1, 1, 0}, {1, 0, 0}};
     vector<vector<vector<int>>> history(1, board);
-    cout << "Searching Solution with " << clickBoard << clickAmount << endl;
+
     findSolution(rows, columns, history, clickAmount, colorAmount);
-    cout << "Done!" << endl;
 }
+
+// for (int click = 1; click < clickAmount; click++)
+// {
+
+//     const auto start = chrono::steady_clock::now();
+//     cout << "Searching a solution with " << click << " clicks\n";
+//     findSolution(rows, columns, history, click, colorAmount);
+//     const auto end = chrono::steady_clock::now();
+//     cout << "Done in " << chrono::duration_cast<chrono::seconds>(end - start).count() << " seconds!" << endl;
+// }
