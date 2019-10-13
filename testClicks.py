@@ -1,6 +1,6 @@
 import random
 from copy import deepcopy
-testBoard = [[1, 1, 1], [1, 1, 0], [1, 0, 0]]
+import pprint
 rows = 3
 columns = 3
 colorAmount = 3
@@ -32,16 +32,32 @@ def checkWin(board):
     return True
 
 
-def findSolution():
+def findSolution(history, clickAmount):
+    # recursion which tests all possible clicks and checks the result of a given board/latest in History
+    board = deepcopy(history[-1])
+    # base case
+
+    if clickAmount <= 0:
+        if checkWin(board):
+            print(f"gg@ ")
+            print(history)
+        else:
+            pass
+        return
+    # main recursion
     for row in range(rows):
         for column in range(columns):
-            tempBoard = click(row, column, deepcopy(testBoard))
-            if checkWin(tempBoard):
-                print(f"gg@ row:{row} column:{column}")
-                print(tempBoard)
-            else:
-                # reset board
-                pass
+            tempBoard = click(row, column, deepcopy(board))
+            tempHistory = deepcopy(history)
+            tempHistory.append(tempBoard)
+            # pp.pprint(tempHistory)
+            findSolution(tempHistory, clickAmount-1)
 
 
-findSolution()
+a = 2
+testBoard = [[1, 1, 1],
+             [1, 1, a],
+             [1, a, a]]
+
+
+findSolution([deepcopy(testBoard)], 2)
