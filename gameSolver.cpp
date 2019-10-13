@@ -64,6 +64,7 @@ bool checkWin(vector<vector<int>> board)
 
 void findSolution(int rows, int columns, vector<vector<vector<int>>> history, int clickAmount, int colorAmount)
 {
+
     vector<vector<int>> board(history.back());
     if (clickAmount <= 0)
     {
@@ -95,7 +96,9 @@ int main(int argc, char *argv[])
     int columns = 3;
     int colorAmount = 3;
     int clickAmount = 2;
-    vector<vector<int>> board = {{2, 2, 2}, {2, 2, 0}, {2, 0, 0}};
+    vector<vector<int>> board = {{2, 2, 2}, {2, 2, 1}, {2, 1, 1}};
     vector<vector<vector<int>>> history(1, board);
+    cout << "Searching Solution with " << clickBoard << clickAmount << endl;
     findSolution(rows, columns, history, clickAmount, colorAmount);
+    cout << "Done!" << endl;
 }
