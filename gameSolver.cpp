@@ -2,6 +2,7 @@
 #include <vector>
 #include <chrono>
 #include <cmath>
+#include <set>
 using namespace std;
 
 /* helper function to display solutions */
@@ -113,7 +114,7 @@ vector<int> incrementClicks(vector<int> clicks, int rows, int columns)
     return tempClicks;
 }
 
-void findSolutionIterative(int rows, int columns, vector<vector<int>> startBoard, int clickAmount, int colorAmount)
+void findSolutionIterative(int rows, int columns, vector<vector<int>> startBoard, int colorAmount)
 {
     vector<vector<int>> board(startBoard);
     vector<int> clicks(1, 0);
@@ -143,27 +144,57 @@ void findSolutionIterative(int rows, int columns, vector<vector<int>> startBoard
     }
 }
 
+void findSolutions(int rows, int columns, int colorAmount)
+{
+    cout << "Computing all possible solutions for a " << rows << " * " << columns << " board with " << colorAmount << " colors." << endl;
+    set<vector<vector<int>>> solutionsAll;
+    set<vector<vector<int>>> solutionsLast;
+    set<vector<vector<int>>> solutionsCurrent;
+    bool finished = false;
+    for (int color = 0; color < colorAmount; color++)
+    {
+        vector<vector<int>> tempBoard = {{color, color, color}, {color, color, color}, {color, color, color}};
+        solutionsAll.insert(tempBoard);
+        solutionsLast.insert(tempBoard);
+    }
+
+    for (int step = 1; !finished; step++)
+    {
+        for (int click = 0; click < rows * columns; click++)
+        {
+            const int row = click / columns;
+            const int column = click % columns;
+            for (vector<vector<int>> board : solutionsLast)
+            {
+                vector<vector<int>> tempBoard = clickBoard(row, column, board, colorAmount);
+                if (!solutionsAll.count(tempBoard))
+                {
+                    solutionsAll.insert(tempBoard);
+                    solutionsCurrent.insert(tempBoard);
+                }
+            }
+        }
+        solutionsLast = solutionsCurrent;
+        solutionsCurrent.clear();
+        cout << solutionsLast.size() << " new solutions found with " << step << " steps." << endl;
+        if (!solutionsLast.size())
+        {
+            finished = true;
+            cout << "Number of unique boards: " << solutionsAll.size() << endl;
+        }
+    }
+}
+
 int main(int argc, char *argv[])
 {
     int rows = 3;
     int columns = 3;
-    int colorAmount = 3;
-    int clickAmount = 1;
+    int colorAmount = 6;
     vector<vector<int>> board = {{1, 1, 1},
                                  {1, 1, 1},
                                  {1, 1, 0}};
     const auto start = chrono::steady_clock::now();
-    findSolutionIterative(rows, columns, board, clickAmount, colorAmount);
+    findSolutions(rows, columns, colorAmount);
     const auto end = chrono::steady_clock::now();
-    cout << "Done in " << chrono::duration_cast<chrono::seconds>(end - start).count() << " seconds!" << endl;
+    cout << "Done in " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << " ms!" << endl;
 }
-
-// for (int click = 1; click < clickAmount; click++)
-// {
-
-//     const auto start = chrono::steady_clock::now();
-//     cout << "Searching a solution with " << click << " clicks\n";
-//     findSolution(rows, columns, history, click, colorAmount);
-//     const auto end = chrono::steady_clock::now();
-//     cout << "Done in " << chrono::duration_cast<chrono::seconds>(end - start).count() << " seconds!" << endl;
-// }
