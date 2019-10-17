@@ -196,5 +196,5 @@ int main(int argc, char *argv[])
     const auto start = chrono::steady_clock::now();
     findSolutions(rows, columns, colorAmount);
     const auto end = chrono::steady_clock::now();
-    cout << "Done in " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << " ms!" << endl;
+    cout << "Done in " << chrono::duration_cast<chrono::seconds>(end - start).count() << " s!" << endl;
 }
