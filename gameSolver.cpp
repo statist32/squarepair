@@ -5,6 +5,12 @@
 #include <set>
 using namespace std;
 
+typedef struct _solution
+{
+    vector<vector<int>> board;
+    vector<pair<int, int>> clicks;
+} SOLUTION;
+
 /* helper function to display and store solutions */
 void printBoard(vector<vector<int>> board)
 {
@@ -19,12 +25,11 @@ void printBoard(vector<vector<int>> board)
     cout << endl;
 }
 
-void printSolution(pair<vector<vector<int>>, vector<pair<int, int>>> solution)
+void printSolution(SOLUTION solution)
 {
-    vector<vector<int>> board = solution.first;
-    vector<pair<int, int>> clicks = solution.second;
-    printBoard(board);
-    for (pair<int, int> click : clicks)
+
+    printBoard(solution.board);
+    for (pair<int, int> click : solution.clicks)
     {
         const int row = click.first;
         const int column = click.second;
@@ -85,12 +90,6 @@ bool containsBoard(vector<pair<vector<vector<int>>, vector<pair<int, int>>>> sol
 }
 /* Solver*/
 
-typedef struct solution
-{
-    vector<vector<int>> board;
-    vector<pair<int, int>> clicks;
-} SOLUTION;
-
 int calcIndex(vector<vector<int>> board, int colorAmount)
 {
     //basically x-ary coversion to decimal
@@ -107,38 +106,46 @@ int calcIndex(vector<vector<int>> board, int colorAmount)
     return sum;
 }
 
+vector<vector<int>> initBoard(int rows, int columns, int color)
+{
+    vector<int> tempRow(columns, color);
+    vector<vector<int>> tempBoard(rows, tempRow);
+    return tempBoard;
+}
+
 void findSolutions(int rows, int columns, int colorAmount)
 {
     cout << "Computing all possible solutions for a " << rows << " * " << columns << " board with " << colorAmount << " colors." << endl;
-    vector<SOLUTION> solutionsAll;
+
+    vector<SOLUTION> solutionsAll(pow(colorAmount, rows * columns), {initBoard(rows, columns, -1), vector<pair<int, int>>{make_pair(-1, -1)}});
     vector<SOLUTION> solutionsLast;
     vector<SOLUTION> solutionsCurrent;
 
     bool finished = false;
+
     for (int color = 0; color < colorAmount; color++)
     {
-        vector<vector<int>> tempBoard = {{color, color, color}, {color, color, color}, {color, color, color}};
-        solutionsAll.push_back(make_pair(tempBoard, vector<pair<int, int>>{make_pair(-1, -1)}));
-        solutionsLast.push_back(make_pair(tempBoard, vector<pair<int, int>>{make_pair(-1, -1)}));
+        vector<vector<int>> tempBoard(initBoard(rows, columns, color));
+        solutionsAll[calcIndex(tempBoard, colorAmount)] = {tempBoard, vector<pair<int, int>>{make_pair(-1, -1)}};
+        solutionsLast.push_back({tempBoard, vector<pair<int, int>>{make_pair(-1, -1)}});
     }
+
     for (int step = 1; !finished; step++)
     {
         for (int click = 0; click < rows * columns; click++)
         {
             const int row = click / columns;
             const int column = click % columns;
-            for (pair<vector<vector<int>>, vector<pair<int, int>>> solution : solutionsLast)
+            for (SOLUTION solution : solutionsLast)
             {
-                vector<vector<int>> board(solution.first);
-                vector<pair<int, int>> clicks(solution.second);
-                vector<vector<int>> tempBoard = clickBoard(row, column, board, colorAmount);
-
-                if (!containsBoard(solutionsAll, tempBoard))
+                vector<vector<int>> tempBoard = clickBoard(row, column, solution.board, colorAmount);
+                const int index = calcIndex(tempBoard, colorAmount);
+                if (solutionsAll[index].board[0][0] < 0)
                 {
-                    vector<pair<int, int>> tempClicks(clicks);
+                    vector<pair<int, int>> tempClicks(solution.clicks);
                     tempClicks.push_back(make_pair(row, column));
-                    solutionsAll.push_back(make_pair(tempBoard, tempClicks));
-                    solutionsCurrent.push_back(make_pair(tempBoard, tempClicks));
+                    solutionsAll[index] = {tempBoard, tempClicks};
+                    solutionsCurrent.push_back({tempBoard, tempClicks});
                 }
             }
         }
@@ -148,7 +155,7 @@ void findSolutions(int rows, int columns, int colorAmount)
         if (!solutionsLast.size())
         {
             finished = true;
-            cout << "Number of unique boards: " << solutionsAll.size() << endl;
+            cout << "Number of unique boards: " << solutionsAll.size() << "amount basically hardcoded due to vector allocation" << endl;
             printSolution(solutionsAll[180]);
         }
     }
