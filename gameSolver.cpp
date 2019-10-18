@@ -5,7 +5,7 @@
 #include <set>
 using namespace std;
 
-/* helper function to display solutions */
+/* helper function to display and store solutions */
 void printBoard(vector<vector<int>> board)
 {
     for (vector<int> row : board)
@@ -19,12 +19,10 @@ void printBoard(vector<vector<int>> board)
     cout << endl;
 }
 
-void printHistory(vector<vector<vector<int>>> history)
+void printSolutionWithClicks(pair<vector<vector<int>>, pair<int, int>> solutionWithClicks)
 {
-    for (vector<vector<int>> board : history)
-    {
-        printBoard(board);
-    }
+    printBoard(solutionWithClicks.first);
+    cout << solutionWithClicks.second.first << " " << solutionWithClicks.second.second << endl;
 }
 
 /*game logic*/
@@ -65,89 +63,8 @@ bool checkWin(vector<vector<int>> board)
     return true;
 }
 
-void findSolutionRecursive(int rows, int columns, vector<vector<vector<int>>> history, int clickAmount, int colorAmount)
-{
-    vector<vector<int>> board(history.back());
-    if (clickAmount <= 0)
-    {
-        if (checkWin(board))
-        {
-            cout << "Solved" << endl;
-            printHistory(history);
-        }
-    }
-    else
-    {
-        for (int row = 0; row < rows; row++)
-        {
-            for (int column = 0; column < columns; column++)
-            {
-                vector<vector<int>> tempBoard = clickBoard(row, column, board, colorAmount);
-                vector<vector<vector<int>>> tempHistory(history);
+/* Solver*/
 
-                tempHistory.push_back(tempBoard);
-                findSolutionRecursive(rows, columns, tempHistory, clickAmount - 1, colorAmount);
-            }
-        }
-    }
-}
-
-vector<int> incrementClicks(vector<int> clicks, int rows, int columns)
-{
-    vector<int> tempClicks(clicks);
-    const int dimension = rows * columns;
-    const int size = tempClicks.size();
-    bool finished = false;
-    for (int i = size - 1; i >= 0 && !finished; i--)
-    {
-        tempClicks[i] = (tempClicks[i] + 1) % dimension;
-        if (tempClicks[i])
-        {
-            finished = true;
-        }
-        if (!i && !finished)
-        {
-            tempClicks.push_back(0);
-        }
-    }
-
-    return tempClicks;
-}
-
-void findSolutionIterative(int rows, int columns, vector<vector<int>> startBoard, int colorAmount)
-{
-    vector<vector<int>> board(startBoard);
-    vector<int> clicks(1, 0);
-    bool finished = false;
-    for (int rounds = 0; (rounds < pow((rows * columns), 10)) && !finished; rounds++)
-    {
-        vector<vector<int>> tempBoard(board);
-        for (int click : clicks)
-        {
-            int row = click / columns;
-            int column = click % columns;
-
-            tempBoard = clickBoard(row, column, tempBoard, colorAmount);
-        }
-        if (checkWin(tempBoard))
-        {
-            cout << "Solved in " << clicks.size() << " steps with these steps" << endl;
-            for (int click : clicks)
-            {
-                cout << click << " ";
-            }
-            cout << endl;
-            finished = true;
-        }
-
-        clicks = incrementClicks(clicks, rows, columns);
-    }
-}
-void printSolutionWithClicks(pair<vector<vector<int>>, pair<int, int>> solutionWithClicks)
-{
-    printBoard(solutionWithClicks.first);
-    cout << solutionWithClicks.second.first << " " << solutionWithClicks.second.second << endl;
-}
 void findSolutions(int rows, int columns, int colorAmount)
 {
     cout << "Computing all possible solutions for a " << rows << " * " << columns << " board with " << colorAmount << " colors." << endl;
@@ -188,7 +105,7 @@ void findSolutions(int rows, int columns, int colorAmount)
         {
             finished = true;
             cout << "Number of unique boards: " << solutionsAll.size() << endl;
-            printSolutionWithClicks(solutionsWithClicks[12]);
+            printSolutionWithClicks(solutionsWithClicks[180]);
         }
     }
 }
