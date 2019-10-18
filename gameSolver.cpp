@@ -85,12 +85,34 @@ bool containsBoard(vector<pair<vector<vector<int>>, vector<pair<int, int>>>> sol
 }
 /* Solver*/
 
+typedef struct solution
+{
+    vector<vector<int>> board;
+    vector<pair<int, int>> clicks;
+} SOLUTION;
+
+int calcIndex(vector<vector<int>> board, int colorAmount)
+{
+    //basically x-ary coversion to decimal
+    const int rows = board.size();
+    const int columns = board[0].size();
+    int sum = 0;
+    for (int row = 0; row < rows; row++)
+    {
+        for (int column = 0; column < columns; column++)
+        {
+            sum += board[row][column] * pow(colorAmount, row * columns + column);
+        }
+    }
+    return sum;
+}
+
 void findSolutions(int rows, int columns, int colorAmount)
 {
     cout << "Computing all possible solutions for a " << rows << " * " << columns << " board with " << colorAmount << " colors." << endl;
-    vector<pair<vector<vector<int>>, vector<pair<int, int>>>> solutionsAll;
-    vector<pair<vector<vector<int>>, vector<pair<int, int>>>> solutionsLast;
-    vector<pair<vector<vector<int>>, vector<pair<int, int>>>> solutionsCurrent;
+    vector<SOLUTION> solutionsAll;
+    vector<SOLUTION> solutionsLast;
+    vector<SOLUTION> solutionsCurrent;
 
     bool finished = false;
     for (int color = 0; color < colorAmount; color++)
@@ -136,10 +158,12 @@ int main(int argc, char *argv[])
 {
     int rows = 3;
     int columns = 3;
+
     int colorAmount = 3;
-    vector<vector<int>> board = {{1, 1, 1},
-                                 {1, 1, 1},
-                                 {1, 1, 0}};
+    vector<vector<int>> board = {{2, 2, 2},
+                                 {2, 2, 2},
+                                 {2, 2, 2}};
+
     const auto start = chrono::steady_clock::now();
     findSolutions(rows, columns, colorAmount);
     const auto end = chrono::steady_clock::now();
