@@ -19,10 +19,19 @@ void printBoard(vector<vector<int>> board)
     cout << endl;
 }
 
-void printSolutionWithClicks(pair<vector<vector<int>>, pair<int, int>> solutionWithClicks)
+void printSolution(pair<vector<vector<int>>, vector<pair<int, int>>> solution)
 {
-    printBoard(solutionWithClicks.first);
-    cout << solutionWithClicks.second.first << " " << solutionWithClicks.second.second << endl;
+    vector<vector<int>> board = solution.first;
+    vector<pair<int, int>> clicks = solution.second;
+    printBoard(board);
+    for (pair<int, int> click : clicks)
+    {
+        const int row = click.first;
+        const int column = click.second;
+
+        cout << "(" << row << "," << column << "), ";
+    }
+    cout << endl;
 }
 
 /*game logic*/
@@ -63,23 +72,32 @@ bool checkWin(vector<vector<int>> board)
     return true;
 }
 
+bool containsBoard(vector<pair<vector<vector<int>>, vector<pair<int, int>>>> solutions, vector<vector<int>> board)
+{
+    for (pair<vector<vector<int>>, vector<pair<int, int>>> solution : solutions)
+    {
+        if (solution.first == board)
+        {
+            return true;
+        }
+    }
+    return false;
+}
 /* Solver*/
 
 void findSolutions(int rows, int columns, int colorAmount)
 {
     cout << "Computing all possible solutions for a " << rows << " * " << columns << " board with " << colorAmount << " colors." << endl;
-    set<vector<vector<int>>> solutionsAll;
-    set<vector<vector<int>>> solutionsLast;
-    vector<pair<vector<vector<int>>, pair<int, int>>> solutionsWithClicks;
+    vector<pair<vector<vector<int>>, vector<pair<int, int>>>> solutionsAll;
+    vector<pair<vector<vector<int>>, vector<pair<int, int>>>> solutionsLast;
+    vector<pair<vector<vector<int>>, vector<pair<int, int>>>> solutionsCurrent;
 
-    set<vector<vector<int>>> solutionsCurrent;
     bool finished = false;
     for (int color = 0; color < colorAmount; color++)
     {
         vector<vector<int>> tempBoard = {{color, color, color}, {color, color, color}, {color, color, color}};
-        solutionsAll.insert(tempBoard);
-        solutionsLast.insert(tempBoard);
-        solutionsWithClicks.push_back(make_pair(tempBoard, make_pair(0, 0)));
+        solutionsAll.push_back(make_pair(tempBoard, vector<pair<int, int>>{make_pair(-1, -1)}));
+        solutionsLast.push_back(make_pair(tempBoard, vector<pair<int, int>>{make_pair(-1, -1)}));
     }
     for (int step = 1; !finished; step++)
     {
@@ -87,14 +105,18 @@ void findSolutions(int rows, int columns, int colorAmount)
         {
             const int row = click / columns;
             const int column = click % columns;
-            for (vector<vector<int>> board : solutionsLast)
+            for (pair<vector<vector<int>>, vector<pair<int, int>>> solution : solutionsLast)
             {
+                vector<vector<int>> board(solution.first);
+                vector<pair<int, int>> clicks(solution.second);
                 vector<vector<int>> tempBoard = clickBoard(row, column, board, colorAmount);
-                if (!solutionsAll.count(tempBoard))
+
+                if (!containsBoard(solutionsAll, tempBoard))
                 {
-                    solutionsAll.insert(tempBoard);
-                    solutionsCurrent.insert(tempBoard);
-                    solutionsWithClicks.push_back(make_pair(tempBoard, make_pair(row, column)));
+                    vector<pair<int, int>> tempClicks(clicks);
+                    tempClicks.push_back(make_pair(row, column));
+                    solutionsAll.push_back(make_pair(tempBoard, tempClicks));
+                    solutionsCurrent.push_back(make_pair(tempBoard, tempClicks));
                 }
             }
         }
@@ -105,7 +127,7 @@ void findSolutions(int rows, int columns, int colorAmount)
         {
             finished = true;
             cout << "Number of unique boards: " << solutionsAll.size() << endl;
-            printSolutionWithClicks(solutionsWithClicks[180]);
+            printSolution(solutionsAll[180]);
         }
     }
 }
@@ -114,25 +136,12 @@ int main(int argc, char *argv[])
 {
     int rows = 3;
     int columns = 3;
-    int colorAmount = 2;
+    int colorAmount = 3;
     vector<vector<int>> board = {{1, 1, 1},
                                  {1, 1, 1},
                                  {1, 1, 0}};
-    // const auto start = chrono::steady_clock::now();
-    // findSolutions(rows, columns, colorAmount);
-    // const auto end = chrono::steady_clock::now();
-    // cout << "Done in " << chrono::duration_cast<chrono::seconds>(end - start).count() << " s!" << endl;
-    set<pair<int, string>> test;
-    test.insert(make_pair(1, "a"));
-    test.insert(make_pair(1, "b"));
-    test.insert(make_pair(2, "a"));
-    test.insert(make_pair(2, "c"));
-    pair<int, string> a(1, "a");
-    for (auto i : test)
-    {
-        if (i == a)
-        {
-            cout << "hi" << endl;
-        }
-    }
+    const auto start = chrono::steady_clock::now();
+    findSolutions(rows, columns, colorAmount);
+    const auto end = chrono::steady_clock::now();
+    cout << "Done in " << chrono::duration_cast<chrono::seconds>(end - start).count() << " s!" << endl;
 }
