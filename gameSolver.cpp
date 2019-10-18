@@ -118,8 +118,21 @@ int main(int argc, char *argv[])
     vector<vector<int>> board = {{1, 1, 1},
                                  {1, 1, 1},
                                  {1, 1, 0}};
-    const auto start = chrono::steady_clock::now();
-    findSolutions(rows, columns, colorAmount);
-    const auto end = chrono::steady_clock::now();
-    cout << "Done in " << chrono::duration_cast<chrono::seconds>(end - start).count() << " s!" << endl;
+    // const auto start = chrono::steady_clock::now();
+    // findSolutions(rows, columns, colorAmount);
+    // const auto end = chrono::steady_clock::now();
+    // cout << "Done in " << chrono::duration_cast<chrono::seconds>(end - start).count() << " s!" << endl;
+    set<pair<int, string>> test;
+    test.insert(make_pair(1, "a"));
+    test.insert(make_pair(1, "b"));
+    test.insert(make_pair(2, "a"));
+    test.insert(make_pair(2, "c"));
+    pair<int, string> a(1, "a");
+    for (auto i : test)
+    {
+        if (i == a)
+        {
+            cout << "hi" << endl;
+        }
+    }
 }
