@@ -143,12 +143,18 @@ void findSolutionIterative(int rows, int columns, vector<vector<int>> startBoard
         clicks = incrementClicks(clicks, rows, columns);
     }
 }
-
+void printSolutionWithClicks(pair<vector<vector<int>>, pair<int, int>> solutionWithClicks)
+{
+    printBoard(solutionWithClicks.first);
+    cout << solutionWithClicks.second.first << " " << solutionWithClicks.second.second << endl;
+}
 void findSolutions(int rows, int columns, int colorAmount)
 {
     cout << "Computing all possible solutions for a " << rows << " * " << columns << " board with " << colorAmount << " colors." << endl;
     set<vector<vector<int>>> solutionsAll;
     set<vector<vector<int>>> solutionsLast;
+    vector<pair<vector<vector<int>>, pair<int, int>>> solutionsWithClicks;
+
     set<vector<vector<int>>> solutionsCurrent;
     bool finished = false;
     for (int color = 0; color < colorAmount; color++)
@@ -156,8 +162,8 @@ void findSolutions(int rows, int columns, int colorAmount)
         vector<vector<int>> tempBoard = {{color, color, color}, {color, color, color}, {color, color, color}};
         solutionsAll.insert(tempBoard);
         solutionsLast.insert(tempBoard);
+        solutionsWithClicks.push_back(make_pair(tempBoard, make_pair(0, 0)));
     }
-
     for (int step = 1; !finished; step++)
     {
         for (int click = 0; click < rows * columns; click++)
@@ -171,6 +177,7 @@ void findSolutions(int rows, int columns, int colorAmount)
                 {
                     solutionsAll.insert(tempBoard);
                     solutionsCurrent.insert(tempBoard);
+                    solutionsWithClicks.push_back(make_pair(tempBoard, make_pair(row, column)));
                 }
             }
         }
@@ -181,6 +188,7 @@ void findSolutions(int rows, int columns, int colorAmount)
         {
             finished = true;
             cout << "Number of unique boards: " << solutionsAll.size() << endl;
+            printSolutionWithClicks(solutionsWithClicks[12]);
         }
     }
 }
@@ -189,7 +197,7 @@ int main(int argc, char *argv[])
 {
     int rows = 3;
     int columns = 3;
-    int colorAmount = 6;
+    int colorAmount = 2;
     vector<vector<int>> board = {{1, 1, 1},
                                  {1, 1, 1},
                                  {1, 1, 0}};
