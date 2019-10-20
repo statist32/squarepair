@@ -1,8 +1,8 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <chrono>
 #include <cmath>
-#include <set>
 using namespace std;
 
 typedef struct _solution
@@ -29,14 +29,54 @@ void printSolution(SOLUTION solution)
 {
 
     printBoard(solution.board);
-    for (pair<int, int> click : solution.clicks)
+    for (int i = 1; i < solution.clicks.size(); i++)
     {
+        pair<int, int> click = solution.clicks[i];
         const int row = click.first;
         const int column = click.second;
 
         cout << "(" << row << "," << column << "), ";
     }
     cout << endl;
+}
+
+void storeSolution(SOLUTION solution)
+{
+    ofstream file;
+    file.open("example.txt", std::ofstream::app);
+    for (int row = 0; row < solution.board.size(); row++)
+    {
+
+        for (int column = 0; column < solution.board[0].size(); column++)
+        {
+            file << solution.board[row][column] << " ";
+        }
+        file << "| ";
+    }
+    file << " clicks: ";
+    for (int i = 1; i < solution.clicks.size(); i++)
+    {
+        pair<int, int> click = solution.clicks[i];
+        const int row = click.first;
+        const int column = click.second;
+
+        file << "(" << row << "," << column << "), ";
+    }
+    file << endl;
+    file.close();
+    cout << "file closed" << endl;
+}
+
+void printSolutions(vector<SOLUTION> solutions, int step)
+{
+    ofstream file;
+    file.open("example.txt", std::ofstream::app);
+    file << "===== step: " << step << "=====" << endl;
+    file.close();
+    for (SOLUTION solution : solutions)
+    {
+        storeSolution(solution);
+    }
 }
 
 /*game logic*/
@@ -117,7 +157,8 @@ void findSolutions(int rows, int columns, int colorAmount)
 {
     cout << "Computing all possible solutions for a " << rows << " * " << columns << " board with " << colorAmount << " colors." << endl;
 
-    vector<SOLUTION> solutionsAll(pow(colorAmount, rows * columns), {initBoard(rows, columns, -1), vector<pair<int, int>>{make_pair(-1, -1)}});
+    //vector<SOLUTION> solutionsAll(pow(colorAmount, rows * columns), {initBoard(rows, columns, -1), vector<pair<int, int>>{make_pair(-1, -1)}});
+    vector<bool> solutionsAll(pow(colorAmount, rows * columns), false);
     vector<SOLUTION> solutionsLast;
     vector<SOLUTION> solutionsCurrent;
 
@@ -126,10 +167,9 @@ void findSolutions(int rows, int columns, int colorAmount)
     for (int color = 0; color < colorAmount; color++)
     {
         vector<vector<int>> tempBoard(initBoard(rows, columns, color));
-        solutionsAll[calcIndex(tempBoard, colorAmount)] = {tempBoard, vector<pair<int, int>>{make_pair(-1, -1)}};
+        //solutionsAll[calcIndex(tempBoard, colorAmount)] = {tempBoard, vector<pair<int, int>>{make_pair(-1, -1)}};
         solutionsLast.push_back({tempBoard, vector<pair<int, int>>{make_pair(-1, -1)}});
     }
-
     for (int step = 1; !finished; step++)
     {
         for (int click = 0; click < rows * columns; click++)
@@ -140,11 +180,11 @@ void findSolutions(int rows, int columns, int colorAmount)
             {
                 vector<vector<int>> tempBoard = clickBoard(row, column, solution.board, colorAmount);
                 const int index = calcIndex(tempBoard, colorAmount);
-                if (solutionsAll[index].board[0][0] < 0)
+                if (!solutionsAll[index])
                 {
                     vector<pair<int, int>> tempClicks(solution.clicks);
                     tempClicks.push_back(make_pair(row, column));
-                    solutionsAll[index] = {tempBoard, tempClicks};
+                    solutionsAll[index] = true;
                     solutionsCurrent.push_back({tempBoard, tempClicks});
                 }
             }
@@ -152,21 +192,25 @@ void findSolutions(int rows, int columns, int colorAmount)
         solutionsLast = solutionsCurrent;
         solutionsCurrent.clear();
         cout << solutionsLast.size() << " new solutions found with " << step << " steps." << endl;
+
         if (!solutionsLast.size())
         {
             finished = true;
             cout << "Number of unique boards: " << solutionsAll.size() << "amount basically hardcoded due to vector allocation" << endl;
-            printSolution(solutionsAll[180]);
+        }
+        else
+        {
+            printSolutions(solutionsLast, step);
         }
     }
 }
 
 int main(int argc, char *argv[])
 {
-    int rows = 3;
-    int columns = 3;
+    int rows = 2;
+    int columns = 2;
 
-    int colorAmount = 3;
+    int colorAmount = 2;
     vector<vector<int>> board = {{2, 2, 2},
                                  {2, 2, 2},
                                  {2, 2, 2}};
