@@ -12,6 +12,15 @@ typedef struct _solution
 } SOLUTION;
 
 /* helper function to display and store solutions */
+string createFilename(int rows, int columns, int colorAmount)
+{
+    string filename = to_string(rows);
+    filename += "x";
+    filename += to_string(columns);
+    filename += "-";
+    filename += to_string(colorAmount);
+    return filename;
+}
 void printBoard(vector<vector<int>> board)
 {
     for (vector<int> row : board)
@@ -40,10 +49,23 @@ void printSolution(SOLUTION solution)
     cout << endl;
 }
 
-void storeSolution(SOLUTION solution)
+void storeSolutionsNew(vector<int> solutions, string filename)
 {
     ofstream file;
-    file.open("example.txt", std::ofstream::app);
+    file.open(filename, std::ofstream::app);
+    file << "New solutions per step: ";
+    for (int solution : solutions)
+    {
+        file << solution << ",";
+    }
+    file << endl;
+    file.close();
+}
+
+void storeSolution(SOLUTION solution, string filename)
+{
+    ofstream file;
+    file.open(filename, std::ofstream::app);
     for (int row = 0; row < solution.board.size(); row++)
     {
 
@@ -64,18 +86,17 @@ void storeSolution(SOLUTION solution)
     }
     file << endl;
     file.close();
-    cout << "file closed" << endl;
 }
 
-void printSolutions(vector<SOLUTION> solutions, int step)
+void storeSolutions(vector<SOLUTION> solutions, int step, string filename)
 {
     ofstream file;
-    file.open("example.txt", std::ofstream::app);
+    file.open(filename, std::ofstream::app);
     file << "===== step: " << step << "=====" << endl;
     file.close();
     for (SOLUTION solution : solutions)
     {
-        storeSolution(solution);
+        storeSolution(solution, filename);
     }
 }
 
@@ -153,14 +174,17 @@ vector<vector<int>> initBoard(int rows, int columns, int color)
     return tempBoard;
 }
 
-void findSolutions(int rows, int columns, int colorAmount)
+void findSolutions(int rows, int columns, int colorAmount, int storeMode)
 {
+    string filename = createFilename(rows, columns, colorAmount);
+
     cout << "Computing all possible solutions for a " << rows << " * " << columns << " board with " << colorAmount << " colors." << endl;
 
     //vector<SOLUTION> solutionsAll(pow(colorAmount, rows * columns), {initBoard(rows, columns, -1), vector<pair<int, int>>{make_pair(-1, -1)}});
     vector<bool> solutionsAll(pow(colorAmount, rows * columns), false);
     vector<SOLUTION> solutionsLast;
     vector<SOLUTION> solutionsCurrent;
+    vector<int> solutionsNew;
 
     bool finished = false;
 
@@ -190,6 +214,7 @@ void findSolutions(int rows, int columns, int colorAmount)
             }
         }
         solutionsLast = solutionsCurrent;
+        solutionsNew.push_back(solutionsLast.size());
         solutionsCurrent.clear();
         cout << solutionsLast.size() << " new solutions found with " << step << " steps." << endl;
 
@@ -197,26 +222,35 @@ void findSolutions(int rows, int columns, int colorAmount)
         {
             finished = true;
             cout << "Number of unique boards: " << solutionsAll.size() << "amount basically hardcoded due to vector allocation" << endl;
+            if (storeMode > 0)
+            {
+                storeSolutionsNew(solutionsNew, filename);
+            }
         }
-        else
+        cout << storeMode << endl;
+        if (storeMode > 1)
         {
-            printSolutions(solutionsLast, step);
+            storeSolutions(solutionsLast, step, filename);
         }
     }
 }
 
 int main(int argc, char *argv[])
 {
-    int rows = 2;
-    int columns = 2;
-
-    int colorAmount = 2;
-    vector<vector<int>> board = {{2, 2, 2},
-                                 {2, 2, 2},
-                                 {2, 2, 2}};
+    if (argc < 5)
+    {
+        cout << "Too less arguments \n Usage: ./program rows[int] columns[int] colorAmount[int] storeMode[0/1/2]" << endl;
+        cout << "store modes: \n0: nothing\n1: just the amount of new solutions\n2: all solutions with clicks " << endl;
+        return 0;
+    }
+    int rows = atoi(argv[1]);
+    int columns = atoi(argv[2]);
+    int colorAmount = atoi(argv[3]);
+    int storeMode = atoi(argv[4]);
 
     const auto start = chrono::steady_clock::now();
-    findSolutions(rows, columns, colorAmount);
+    findSolutions(rows, columns, colorAmount, storeMode);
     const auto end = chrono::steady_clock::now();
     cout << "Done in " << chrono::duration_cast<chrono::seconds>(end - start).count() << " s!" << endl;
+    return 0;
 }
