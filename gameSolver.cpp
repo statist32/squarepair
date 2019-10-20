@@ -3,6 +3,7 @@
 #include <vector>
 #include <chrono>
 #include <cmath>
+#include <filesystem>
 using namespace std;
 
 typedef struct _solution
@@ -19,6 +20,7 @@ string createFilename(int rows, int columns, int colorAmount)
     filename += to_string(columns);
     filename += "-";
     filename += to_string(colorAmount);
+    filename += ".txt";
     return filename;
 }
 void printBoard(vector<vector<int>> board)
@@ -177,7 +179,6 @@ vector<vector<int>> initBoard(int rows, int columns, int color)
 void findSolutions(int rows, int columns, int colorAmount, int storeMode)
 {
     string filename = createFilename(rows, columns, colorAmount);
-
     cout << "Computing all possible solutions for a " << rows << " * " << columns << " board with " << colorAmount << " colors." << endl;
 
     //vector<SOLUTION> solutionsAll(pow(colorAmount, rows * columns), {initBoard(rows, columns, -1), vector<pair<int, int>>{make_pair(-1, -1)}});
