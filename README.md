@@ -50,7 +50,3 @@ This project is licensed under the [MIT License](LICENSE).
 ## About SquarePair
 
 SquarePair is a puzzle game inspired by a riddle from Zelda: Link's Awakening. It challenges players with rearranging puzzle pieces to solve the mystery. This browser-based version expands on the original with additional features for a more engaging experience.
-
-## Contact
-
-For any inquiries, please contact the repository owner at [your-email@example.com](mailto:your-email@example
